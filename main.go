@@ -3,6 +3,7 @@ import "database/sql"
 import "flag"
 import "fmt"
 import _ "github.com/lib/pq"
+import "io/ioutil"
 import "net/http"
 import "os"
 
@@ -20,14 +21,28 @@ func main( ) {
 	//
 	// Prepare database
 	database , err := sql.Open( "postgres" , * databaseStr )
-	_ , err = database.Exec( "SELECT * FROM files;" )
-	if ( err != nil ) {
+
+	// Create table if not exist
+	file , err := os.Open( "init.sql" )
+	if err != nil {
 		panic( err ) }
+	defer file.Close( )
+	buffer , err := ioutil.ReadAll( file )
+	database.Exec( string( buffer ) )
 
-	//
-	// Consistancy test
-	// TODO
-
+	// Consistency test
+	rows , err := database.Query( "SELECT pointer FROM files;" )
+	if err != nil {
+		panic( err ) }
+	for rows.Next( ) {
+		var pointer int64
+		err = rows.Scan( & pointer )
+		if err != nil {
+			panic( err ) }
+		_ , err := os.Stat( fmt.Sprintf( "%d" , pointer ) )
+		if err != nil {
+			fmt.Fprintf( os.Stderr , "Warning: cannot access %d: %v\r\n" , pointer , err ) }
+	}
 
 	//
 	// Handle request
