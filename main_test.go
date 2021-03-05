@@ -36,7 +36,9 @@ func TestMain( testing * testing.T ) {
 	request.Proto = "HTTP/1.1"
 	request.ProtoMajor = 1
 	request.ProtoMinor = 1
-	request.Header = map[ string ][ ]string{ "Authorization" : { token.String( ) } }
+	request.Header = map[ string ][ ]string{
+		"Authorization" : { token.String( ) } ,
+		"Content-Type" : { "application/json" } }
 	request.ContentLength = -1
 	request.Host = "store.akona.me"
 	response.Body = & bodybuf
@@ -54,8 +56,7 @@ func TestMain( testing * testing.T ) {
 		testing.Fatalf( "share returned: %v\r\n" , response.Code ) }
 
 	// Try to get file
-	var buffer [ ]byte
-	buffer , err = ioutil.ReadAll( response.Body )
+	buffer , err := ioutil.ReadAll( response.Body )
 	request.Method = "GET"
 	request.URL.Path = "/" + string( buffer )
 	get( & response , & request , database )
@@ -64,6 +65,8 @@ func TestMain( testing * testing.T ) {
 	buffer , err = ioutil.ReadAll( response.Body )
 	if string( buffer ) != "body" {
 		testing.Fatalf( "get body mismatch: %v\r\n" , string( buffer ) ) }
+	if response.HeaderMap.Get( "Content-Type" ) != "application/json" {
+		testing.Fatalf( "get content-type mismatch: %v\r\n" , string( response.HeaderMap.Get( "Content-Type" ) ) ) }
 
 	// Delete file
 	request.Method = "DELETE"
