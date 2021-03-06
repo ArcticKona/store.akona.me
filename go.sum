@@ -1,0 +1,6 @@
+github.com/ArcticKona/token v0.0.0-20210306021510-991de1e904f0 h1:sL/dKaGNwZWcwTu6M+ctfaqQKvVYvanUo5sbsDewmQI=
+github.com/ArcticKona/token v0.0.0-20210306021510-991de1e904f0/go.mod h1:dFOwLsGhMchFSQx4aRCBRVwC9z0rXqmCM4FtYnXWlDc=
+github.com/ArcticKona/token v0.0.0-20210306023957-86e23e961276 h1:jyfCVk1Dww4RgyReHyNnVW9q6JeEKUAMw3kyeq9ecmw=
+github.com/ArcticKona/token v0.0.0-20210306023957-86e23e961276/go.mod h1:dFOwLsGhMchFSQx4aRCBRVwC9z0rXqmCM4FtYnXWlDc=
+github.com/lib/pq v1.9.0 h1:L8nSXQQzAYByakOFMTwpjRoHsMJklur4Gi59b6VivR8=
+github.com/lib/pq v1.9.0/go.mod h1:AlVN5x4E4T544tWzH6hKfbfQvm3HdbOxrmggDNAPY9o=
