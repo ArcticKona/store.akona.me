@@ -14,8 +14,8 @@ func main( ) {
 	flag.Usage = func( ) {
 		fmt.Fprintf( flag.CommandLine.Output( ) , "For help and usage please contact software provider.\r\nCopyright © 2020 Kona Arctic. All rights reserved. NO WARRANTY! https://akona.me mailto:arcticjieer@gmail.com\r\n" )
 	}
-	databaseStr := flag.String( "database" , "host=localhost port=5432 user=store.akona.me password=3dbaace1e81f9ac69ef4d86c5c030c5b dbname=store.akona.me sslmode=disable" , "database connection e.g. user:password@tcp(127.0.0.1:3306)/hello" )
-	listenStr := flag.String( "listen" , ":8080" , "listen here e.g. [::]:8080" )
+	databaseStr := flag.String( "database" , os.Getenv( "AKONA_POSTGRESQL_GOPQ" ) , "database connection e.g. user:password@tcp(127.0.0.1:3306)/hello" )
+	listenStr := flag.String( "listen" , ":" + os.Getenv( "PORT" ) , "listen here e.g. [::]:8080" )
 	flag.Parse( )
 
 	//
@@ -40,7 +40,7 @@ func main( ) {
 		if err != nil {
 			panic( err ) }
 		_ , err := os.Stat( fmt.Sprintf( "%d" , pointer ) )
-		if err != nil {
+		if err != nil && pointer != 0 {
 			fmt.Fprintf( os.Stderr , "Warning: cannot access %d: %v\r\n" , pointer , err ) }
 	}
 

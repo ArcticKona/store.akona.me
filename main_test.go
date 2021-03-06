@@ -9,6 +9,7 @@ import "io/ioutil"
 import "net/http"
 import "net/http/httptest"
 import "net/url"
+import "os"
 import "testing"
 
 func TestMain( testing * testing.T ) {
@@ -18,7 +19,9 @@ func TestMain( testing * testing.T ) {
 	var database * sql.DB
 
 	// Prepare database
-	databaseStr := "host=localhost port=5432 user=store.akona.me password=3dbaace1e81f9ac69ef4d86c5c030c5b dbname=store.akona.me sslmode=disable"	// Change this
+	databaseStr := os.Getenv( "AKONA_POSTGRESQL_GOPQ" )
+	if databaseStr == "" {
+		databaseStr = "host=localhost port=5432 user=store.akona.me password=3dbaace1e81f9ac69ef4d86c5c030c5b dbname=store.akona.me sslmode=disable" }	// Change this
 	database , _ = sql.Open( "postgres" , databaseStr )
 	_ , err = database.Exec( "SELECT * FROM files;" )
 	if err != nil {
