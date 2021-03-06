@@ -47,7 +47,11 @@ func main( ) {
 	//
 	// Handle request
 	http.HandleFunc( "/" , func( response http.ResponseWriter, request * http.Request ) {
-
+		if request.URL.Path == "/" {
+			response.Header( ).Set( "Location" , "https://akona.me/" )
+			response.WriteHeader( http.StatusTemporaryRedirect )
+			return
+		}
 		if request.Header.Get( "Origin" ) != "" {
 			response.Header( ).Set( "Access-Control-Allow-Origin" , request.Header.Get( "Origin" ) )
 			response.Header( ).Set( "Vary" , "Origin" )

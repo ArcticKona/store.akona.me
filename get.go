@@ -34,8 +34,8 @@ func get( response http.ResponseWriter, request * http.Request , database * sql.
 		return
 	}
 	if mimetype.Valid {
-		response.Header( ).Add( "Content-Type" , mimetype.String ) }
-	response.Header( ).Add( "Content-Security-Policy" , "default-src 'none', sandbox;" )	// This is not a hosting provider
+		response.Header( ).Set( "Content-Type" , mimetype.String ) }
+	response.Header( ).Set( "Content-Security-Policy" , "default-src 'none', sandbox;" )	// This is not a hosting provider
 
 	// Get file if possible
 	file , err := os.Open( fmt.Sprintf( "%d" , pointer ) )
